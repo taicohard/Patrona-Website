@@ -1,30 +1,12 @@
-/**
- * dirPagination - AngularJS module for paginating (almost) anything.
- *
- *
- * Credits
- * =======
- *
- * Daniel Tabuenca: https://groups.google.com/d/msg/angular/an9QpzqIYiM/r8v-3W1X5vcJ
- * for the idea on how to dynamically invoke the ng-repeat directive.
- *
- * I borrowed a couple of lines and a few attribute names from the AngularUI Bootstrap project:
- * https://github.com/angular-ui/bootstrap/blob/master/src/pagination/pagination.js
- *
- * Copyright 2014 Michael Bromley <michael@michaelbromley.co.uk>
- */
 
-(function() {
 
-    /**
-     * Config
-     */
+(function () {
+
+
     var moduleName = 'angularUtils.directives.dirPagination';
     var DEFAULT_ID = '__default';
 
-    /**
-     * Module
-     */
+
     angular.module(moduleName, [])
         .directive('dirPaginate', ['$compile', '$parse', 'paginationService', dirPaginateDirective])
         .directive('dirPaginateNoCompile', noCompileDirective)
@@ -32,21 +14,21 @@
         .filter('itemsPerPage', ['paginationService', itemsPerPageFilter])
         .service('paginationService', paginationService)
         .provider('paginationTemplate', paginationTemplateProvider)
-        .run(['$templateCache',dirPaginationControlsTemplateInstaller]);
+        .run(['$templateCache', dirPaginationControlsTemplateInstaller]);
 
     function dirPaginateDirective($compile, $parse, paginationService) {
 
-        return  {
+        return {
             terminal: true,
             multiElement: true,
             priority: 100,
             compile: dirPaginationCompileFn
         };
 
-        function dirPaginationCompileFn(tElement, tAttrs){
+        function dirPaginationCompileFn(tElement, tAttrs) {
 
             var expression = tAttrs.dirPaginate;
-            // regex taken directly from https://github.com/angular/angular.js/blob/v1.4.x/src/ng/directive/ngRepeat.js#L339
+
             var match = expression.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+?)(?:\s+as\s+([\s\S]+?))?(?:\s+track\s+by\s+([\s\S]+?))?\s*$/);
 
             var filterPattern = /\|\s*itemsPerPage\s*:\s*(.*\(\s*\w*\)|([^\)]*?(?=\s+as\s+))|[^\)]*)/;
@@ -58,36 +40,30 @@
 
             addNoCompileAttributes(tElement);
 
-            // If any value is specified for paginationId, we register the un-evaluated expression at this stage for the benefit of any
-            // dir-pagination-controls directives that may be looking for this ID.
+
             var rawId = tAttrs.paginationId || DEFAULT_ID;
             paginationService.registerInstance(rawId);
 
-            return function dirPaginationLinkFn(scope, element, attrs){
+            return function dirPaginationLinkFn(scope, element, attrs) {
 
-                // Now that we have access to the `scope` we can interpolate any expression given in the paginationId attribute and
-                // potentially register a new ID if it evaluates to a different value than the rawId.
+
                 var paginationId = $parse(attrs.paginationId)(scope) || attrs.paginationId || DEFAULT_ID;
-                
-                // (TODO: this seems sound, but I'm reverting as many bug reports followed it's introduction in 0.11.0.
-                // Needs more investigation.)
-                // In case rawId != paginationId we deregister using rawId for the sake of general cleanliness
-                // before registering using paginationId
-                // paginationService.deregisterInstance(rawId);
+
+
                 paginationService.registerInstance(paginationId);
 
                 var repeatExpression = getRepeatExpression(expression, paginationId);
                 addNgRepeatToElement(element, attrs, repeatExpression);
 
                 removeTemporaryAttributes(element);
-                var compiled =  $compile(element);
+                var compiled = $compile(element);
 
                 var currentPageGetter = makeCurrentPageGetterFn(scope, attrs, paginationId);
                 paginationService.setCurrentPageParser(paginationId, currentPageGetter, scope);
 
                 if (typeof attrs.totalItems !== 'undefined') {
                     paginationService.setAsyncModeTrue(paginationId);
-                    scope.$watch(function() {
+                    scope.$watch(function () {
                         return $parse(attrs.totalItems)(scope);
                     }, function (result) {
                         if (0 <= result) {
@@ -96,9 +72,9 @@
                     });
                 } else {
                     paginationService.setAsyncModeFalse(paginationId);
-                    scope.$watchCollection(function() {
+                    scope.$watchCollection(function () {
                         return collectionGetter(scope);
-                    }, function(collection) {
+                    }, function (collection) {
                         if (collection) {
                             var collectionLength = (collection instanceof Array) ? collection.length : Object.keys(collection).length;
                             paginationService.setCollectionLength(paginationId, collectionLength);
@@ -106,16 +82,10 @@
                     });
                 }
 
-                // Delegate to the link function returned by the new compilation of the ng-repeat
+
                 compiled(scope);
-                 
-                // (TODO: Reverting this due to many bug reports in v 0.11.0. Needs investigation as the
-                // principle is sound)
-                // When the scope is destroyed, we make sure to remove the reference to it in paginationService
-                // so that it can be properly garbage collected
-                // scope.$on('$destroy', function destroyDirPagination() {
-                //     paginationService.deregisterInstance(paginationId);
-                // });
+
+
             };
         }
 
@@ -162,7 +132,7 @@
          * @param tElement
          */
         function addNoCompileAttributes(tElement) {
-            angular.forEach(tElement, function(el) {
+            angular.forEach(tElement, function (el) {
                 if (el.nodeType === 1) {
                     angular.element(el).attr('dir-paginate-no-compile', true);
                 }
@@ -174,7 +144,7 @@
          * @param element
          */
         function removeTemporaryAttributes(element) {
-            angular.forEach(element, function(el) {
+            angular.forEach(element, function (el) {
                 if (el.nodeType === 1) {
                     angular.element(el).removeAttr('dir-paginate-no-compile');
                 }
@@ -197,12 +167,7 @@
             if (attrs.currentPage) {
                 currentPageGetter = $parse(attrs.currentPage);
             } else {
-                // If the current-page attribute was not set, we'll make our own.
-                // Replace any non-alphanumeric characters which might confuse
-                // the $parse service and give unexpected results.
-                // See https://github.com/michaelbromley/angularUtils/issues/233
-                // Adding the '_' as a prefix resolves an issue where paginationId might be have a digit as its first char
-                // See https://github.com/michaelbromley/angularUtils/issues/400
+
                 var defaultCurrentPage = '_' + (paginationId + '__currentPage').replace(/\W/g, '_');
                 scope[defaultCurrentPage] = 1;
                 currentPageGetter = $parse(defaultCurrentPage);
@@ -211,11 +176,7 @@
         }
     }
 
-    /**
-     * This is a helper directive that allows correct compilation when in multi-element mode (ie dir-paginate-start, dir-paginate-end).
-     * It is dynamically added to all elements in the dir-paginate compile function, and it prevents further compilation of
-     * any inner directives. It is then removed in the link function, and all inner directives are then manually compiled.
-     */
+
     function noCompileDirective() {
         return {
             priority: 5000,
@@ -242,18 +203,12 @@
             link: dirPaginationControlsLinkFn
         };
 
-        // We need to check the paginationTemplate service to see whether a template path or
-        // string has been specified, and add the `template` or `templateUrl` property to
-        // the DDO as appropriate. The order of priority to decide which template to use is
-        // (highest priority first):
-        // 1. paginationTemplate.getString()
-        // 2. attrs.templateUrl
-        // 3. paginationTemplate.getPath()
+
         var templateString = paginationTemplate.getString();
         if (templateString !== undefined) {
             DDO.template = templateString;
         } else {
-            DDO.templateUrl = function(elem, attrs) {
+            DDO.templateUrl = function (elem, attrs) {
                 return attrs.templateUrl || paginationTemplate.getPath();
             };
         }
@@ -261,11 +216,9 @@
 
         function dirPaginationControlsLinkFn(scope, element, attrs) {
 
-            // rawId is the un-interpolated value of the pagination-id attribute. This is only important when the corresponding dir-paginate directive has
-            // not yet been linked (e.g. if it is inside an ng-if block), and in that case it prevents this controls directive from assuming that there is
-            // no corresponding dir-paginate directive and wrongly throwing an exception.
-            var rawId = attrs.paginationId ||  DEFAULT_ID;
-            var paginationId = scope.paginationId || attrs.paginationId ||  DEFAULT_ID;
+
+            var rawId = attrs.paginationId || DEFAULT_ID;
+            var paginationId = scope.paginationId || attrs.paginationId || DEFAULT_ID;
 
             if (!paginationService.isRegistered(paginationId) && !paginationService.isRegistered(rawId)) {
                 var idMessage = (paginationId !== DEFAULT_ID) ? ' (id: ' + paginationId + ') ' : ' ';
@@ -291,44 +244,44 @@
                 total: 1
             };
 
-            scope.$watch('maxSize', function(val) {
+            scope.$watch('maxSize', function (val) {
                 if (val) {
                     paginationRange = Math.max(scope.maxSize, 5);
                     generatePagination();
                 }
             });
 
-            scope.$watch(function() {
+            scope.$watch(function () {
                 if (paginationService.isRegistered(paginationId)) {
                     return (paginationService.getCollectionLength(paginationId) + 1) * paginationService.getItemsPerPage(paginationId);
                 }
-            }, function(length) {
+            }, function (length) {
                 if (0 < length) {
                     generatePagination();
                 }
             });
 
-            scope.$watch(function() {
+            scope.$watch(function () {
                 if (paginationService.isRegistered(paginationId)) {
                     return (paginationService.getItemsPerPage(paginationId));
                 }
-            }, function(current, previous) {
+            }, function (current, previous) {
                 if (current != previous && typeof previous !== 'undefined') {
                     goToPage(scope.pagination.current);
                 }
             });
 
-            scope.$watch(function() {
+            scope.$watch(function () {
                 if (paginationService.isRegistered(paginationId)) {
                     return paginationService.getCurrentPage(paginationId);
                 }
-            }, function(currentPage, previousPage) {
+            }, function (currentPage, previousPage) {
                 if (currentPage != previousPage) {
                     goToPage(currentPage);
                 }
             });
 
-            scope.setCurrent = function(num) {
+            scope.setCurrent = function (num) {
                 if (paginationService.isRegistered(paginationId) && isValidPageNumber(num)) {
                     num = parseInt(num, 10);
                     paginationService.setCurrentPage(paginationId, num);
@@ -343,7 +296,7 @@
              * @param index
              * @returns {string}
              */
-            scope.tracker = function(id, index) {
+            scope.tracker = function (id, index) {
                 return id + '_' + index;
             };
 
@@ -355,12 +308,11 @@
                     scope.pagination.current = num;
                     updateRangeValues();
 
-                    // if a callback has been set, then call it with the page number as the first argument
-                    // and the previous page number as a second argument
+
                     if (scope.onPageChange) {
                         scope.onPageChange({
-                            newPageNumber : num,
-                            oldPageNumber : oldPageNumber
+                            newPageNumber: num,
+                            oldPageNumber: oldPageNumber
                         });
                     }
                 }
@@ -380,10 +332,7 @@
                 }
             }
 
-            /**
-             * This function updates the values (lower, upper, total) of the `scope.range` object, which can be used in the pagination
-             * template to display the current page range, e.g. "showing 21 - 40 of 144 results";
-             */
+
             function updateRangeValues() {
                 if (paginationService.isRegistered(paginationId)) {
                     var currentPage = paginationService.getCurrentPage(paginationId),
@@ -436,7 +385,7 @@
                 } else {
                     pages.push(pageNumber);
                 }
-                i ++;
+                i++;
             }
             return pages;
         }
@@ -451,7 +400,7 @@
          * @returns {*}
          */
         function calculatePageNumber(i, currentPage, paginationRange, totalPages) {
-            var halfWay = Math.ceil(paginationRange/2);
+            var halfWay = Math.ceil(paginationRange / 2);
             if (i === paginationRange) {
                 return totalPages;
             } else if (i === 1) {
@@ -477,7 +426,7 @@
      */
     function itemsPerPageFilter(paginationService) {
 
-        return function(collection, itemsPerPage, paginationId) {
+        return function (collection, itemsPerPage, paginationId) {
             if (typeof (paginationId) === 'undefined') {
                 paginationId = DEFAULT_ID;
             }
@@ -503,7 +452,7 @@
                     // in the case of an object, we need to get an array of keys, slice that, then map back to
                     // the original object.
                     var slicedObject = {};
-                    angular.forEach(keys(collection).slice(start, end), function(key) {
+                    angular.forEach(keys(collection).slice(start, end), function (key) {
                         slicedObject[key] = collection[key];
                     });
                     return slicedObject;
@@ -533,15 +482,13 @@
         }
     }
 
-    /**
-     * This service allows the various parts of the module to communicate and stay in sync.
-     */
+
     function paginationService() {
 
         var instances = {};
         var lastRegisteredInstance;
 
-        this.registerInstance = function(instanceId) {
+        this.registerInstance = function (instanceId) {
             if (typeof instances[instanceId] === 'undefined') {
                 instances[instanceId] = {
                     asyncMode: false
@@ -550,53 +497,53 @@
             }
         };
 
-        this.deregisterInstance = function(instanceId) {
+        this.deregisterInstance = function (instanceId) {
             delete instances[instanceId];
         };
-        
-        this.isRegistered = function(instanceId) {
+
+        this.isRegistered = function (instanceId) {
             return (typeof instances[instanceId] !== 'undefined');
         };
 
-        this.getLastInstanceId = function() {
+        this.getLastInstanceId = function () {
             return lastRegisteredInstance;
         };
 
-        this.setCurrentPageParser = function(instanceId, val, scope) {
+        this.setCurrentPageParser = function (instanceId, val, scope) {
             instances[instanceId].currentPageParser = val;
             instances[instanceId].context = scope;
         };
-        this.setCurrentPage = function(instanceId, val) {
+        this.setCurrentPage = function (instanceId, val) {
             instances[instanceId].currentPageParser.assign(instances[instanceId].context, val);
         };
-        this.getCurrentPage = function(instanceId) {
+        this.getCurrentPage = function (instanceId) {
             var parser = instances[instanceId].currentPageParser;
             return parser ? parser(instances[instanceId].context) : 1;
         };
 
-        this.setItemsPerPage = function(instanceId, val) {
+        this.setItemsPerPage = function (instanceId, val) {
             instances[instanceId].itemsPerPage = val;
         };
-        this.getItemsPerPage = function(instanceId) {
+        this.getItemsPerPage = function (instanceId) {
             return instances[instanceId].itemsPerPage;
         };
 
-        this.setCollectionLength = function(instanceId, val) {
+        this.setCollectionLength = function (instanceId, val) {
             instances[instanceId].collectionLength = val;
         };
-        this.getCollectionLength = function(instanceId) {
+        this.getCollectionLength = function (instanceId) {
             return instances[instanceId].collectionLength;
         };
 
-        this.setAsyncModeTrue = function(instanceId) {
+        this.setAsyncModeTrue = function (instanceId) {
             instances[instanceId].asyncMode = true;
         };
 
-        this.setAsyncModeFalse = function(instanceId) {
+        this.setAsyncModeFalse = function (instanceId) {
             instances[instanceId].asyncMode = false;
         };
 
-        this.isAsyncMode = function(instanceId) {
+        this.isAsyncMode = function (instanceId) {
             return instances[instanceId].asyncMode;
         };
     }
@@ -613,7 +560,7 @@
          * Set a templateUrl to be used by all instances of <dir-pagination-controls>
          * @param {String} path
          */
-        this.setPath = function(path) {
+        this.setPath = function (path) {
             templatePath = path;
         };
 
@@ -623,16 +570,16 @@
          * the string takes precedence.
          * @param {String} str
          */
-        this.setString = function(str) {
+        this.setString = function (str) {
             templateString = str;
         };
 
-        this.$get = function() {
+        this.$get = function () {
             return {
-                getPath: function() {
+                getPath: function () {
                     return templatePath;
                 },
-                getString: function() {
+                getString: function () {
                     return templateString;
                 }
             };
