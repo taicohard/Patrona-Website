@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./image/DOGLOGO.jpg" type="image/jpg">
+    <link rel="shortcut icon" href="./image/logo-dog-removebg-preview.png" type="image/jpg">
     <title>Patrona</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
@@ -19,13 +19,27 @@
     <link rel="shortcut icon" href="assets/images/logo-dog-removebg-preview.png" type="image/jpg">
     <!-- font-awesome -->
     <script src="dirPagination.js"></script>
-    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.2.0-web/css/all.css">
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css" />
     <style>
         * {
             box-sizing: inherit;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            background-color: #f9f9f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.35);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #606060;
         }
 
         .slideamin {
@@ -400,7 +414,7 @@
         }
 
         .cart:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
             box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.3);
         }
 
@@ -482,87 +496,15 @@
         }
 
         /* Modal */
-        /* .modal{
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.4);
-        } */
-        body.modal-open {
-            padding-right: 0 !important;
-            overflow-y: scroll !important;
-        }
-
-        @media only screen and (min-width: 768px) and (max-width: 991px) {
-            .main-header-wrapper.bdr-bottom1 .row .col-12.d-block {
-                min-height: 0;
-            }
-        }
-
-        .modal {
-            display: block !important;
-            opacity: 0;
-            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-            filter: alpha(opacity=0);
-            visibility: hidden;
-            pointer-events: none;
-            z-index: -99;
-        }
-
-        @-webkit-keyframes slideInDown {
-            from {
-                -webkit-transform: translate3d(0, -100%, 0);
-                transform: translate3d(0, -100%, 0);
-                visibility: visible
-            }
-
-            to {
-                -webkit-transform: translate3d(0, 0, 0);
-                transform: translate3d(0, 0, 0)
-            }
-        }
-
-        @keyframes slideInDown {
-            from {
-                -webkit-transform: translate3d(0, -100%, 0);
-                transform: translate3d(0, -100%, 0);
-                visibility: visible
-            }
-
-            to {
-                -webkit-transform: translate3d(0, 0, 0);
-                transform: translate3d(0, 0, 0)
-            }
-        }
-
-        .slideInDown {
-            -webkit-animation-name: slideInDown;
-            animation-name: slideInDown
-        }
-
-        .modal.show {
-            opacity: 1;
-            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-            filter: alpha(opacity=100);
-            visibility: visible;
-            pointer-events: visible;
-            z-index: 99999999;
-            -webkit-animation: slideInDown 0.4s forwards;
-            animation: slideInDown 0.4s forwards;
-        }
 
         .modal .modal-header {
-            padding: 0 10px;
+            padding: 10px 10px;
             border-bottom: none;
         }
 
         .modal .modal-header .close {
-            color: #444444;
             font-size: 28px;
             opacity: 1;
-            display: block;
             position: absolute;
             padding: 0;
             width: 30px;
@@ -571,20 +513,26 @@
             right: 10px;
             top: 10px;
             z-index: 999;
-            line-height: 30px;
             -webkit-border-radius: 50%;
             -moz-border-radius: 50%;
             border-radius: 50%;
-            background-color: #f7f7f7;
+            background-color: #fff;
+            color: rgb(125, 116, 116);
+            outline: none;
         }
 
         .modal .modal-header .close:hover {
-            color: #ffffff;
-            background-color: #d8373e;
+            color: #000;
         }
 
-        .modal .modal-body {
-            padding: 20px 20px 0px 0px;
+        .table-modal__title {
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+
+        .table-modal__content {
+            font-size: 1.3rem;
+            color: #404040;
         }
 
         .logo-footer {
@@ -1132,11 +1080,12 @@
             <div class="container">
 
 
-                <a class="navbar-brand    " href="#"><img src="./image/Logo.png" alt="" style="width: 100px;   "
-                        class="logo"></a>
+                <a class="navbar-brand    " href="./index.html"><img src="./image/Logo.png" alt=""
+                        style="width: 100px;   " class="logo"></a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                    style="font-size:23px;">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -1362,8 +1311,6 @@
                             </tbody>
 
                         </table>
-
-                        <!-- <button class="btn btn-success form-filter__btn" type="submit">Submit</button> -->
                         <button class="btn form-filter__btn" type="submit">Reset</button>
                     </div>
                 </form>
@@ -1371,9 +1318,8 @@
 
             <div class="col-md-9" ng-controller="myCtr">
                 <div class="row">
-                    <div dir-paginate="dog in dogs | itemsPerPage: 9 | filter:size | filter:color | filter:character | filter:geography | limitTo:entryLimit "
+                    <div dir-paginate="dog in dogs | itemsPerPage: 9 | filter:size | filter:color | filter:character | filter:geography "
                         class="cart col-6 col-md-4">
-                        <!--| startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit -->
                         <div class="header-cart">
                             <div><img class="header-cart__img" src="image/{{dog.Url}}" width="100%" alt="">
                             </div>
@@ -1395,9 +1341,8 @@
                         <!-- Modal content -->
                         <div class="modal-content">
                             <div class="modal-header" style="position: relative;">
-
-                                <!-- <button type="button" class="close" id="close3" data-dismiss="modal">&times;</button> -->
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                <button type="button" class="close"
+                                    data-bs-dismiss="modal"><span>&times;</span></button>
                             </div>
                             <div class="modal-body" id="modalDog">
 
@@ -1405,7 +1350,7 @@
                             <!-- Modal footer -->
                             <div class="modal-footer">
                                 <button type="button" class="btn" data-bs-dismiss="modal"
-                                    style="background-color: rgb(97, 96, 96);color: #fff;">Close</button>
+                                    style="background-color: rgb(97, 96, 96);color: #fff;padding: 5px 10px;font-size: 1.4rem;">Close</button>
                             </div>
                         </div>
 
@@ -1497,7 +1442,7 @@
                                 </a>
 
                                 <a href="" class="me-4 text-reset glowing-btn glowing-instagram">
-                                    <i class="fab fa-instagram"></i>
+                                    <i class="fab fa-instagram "></i>
                                 </a>
 
                                 <a href="" class="me-4 text-reset glowing-btn glowing-github">
@@ -1590,10 +1535,10 @@
 
             $scope.modal = function () {
                 let id = $(this)[0].dog.id
+                console.log(id)
                 let dog = $scope.dogs.filter(ele => ele.id == id)
                 setModal(dog[0])
-                $('#myModal').modal('show');
-
+                // $('#myModal').modal('show');
             }
 
             function setModal(dog) {
@@ -1603,57 +1548,57 @@
                     <div class="row">
                         <div class="col-12">
                             <div>
-                                <img src="image/${dog.Url}" style="width:100%" alt="">
+                                <img src="image/${dog.Url}" style="width:100%;max-height:380px;border-radius:5px" alt="">
                             </div>
                             <div>
-                                <h4>${dog.Name}</h4>
+                                <h2 style="text-align:center;padding:5px 0">${dog.Name}</h2>
                             </div>
                             <div>
-                                <table class="table table-bordered">
+                                <table class="table table-bordered table-hover">
                                     <tbody>
                                         <tr>
-                                            <td>Origin</td>
-                                            <td>${dog.Origin}</td>
+                                            <td class="table-modal__title">Origin</td>
+                                            <td class="table-modal__content">${dog.Origin}</td>
                                         </tr>
                                         <tr>
-                                            <td>Size</td>
-                                            <td>${dog.Size}</td>
+                                            <td class="table-modal__title">Size</td>
+                                            <td class="table-modal__content">${dog.Size}</td>
                                         </tr>
                                         <tr>
-                                            <td>Color</td>
-                                            <td>${dog.Color}</td>
+                                            <td class="table-modal__title">Color</td>
+                                            <td class="table-modal__content">${dog.Color}</td>
                                         </tr>
                                         <tr>
-                                            <td>Type</td>
-                                            <td>${dog.Type}</td>
+                                            <td class="table-modal__title">Type</td>
+                                            <td class="table-modal__content">${dog.Type}</td>
                                         </tr>
                                         <tr>
-                                            <td>Character</td>
-                                            <td>${dog.Character}</td>
+                                            <td class="table-modal__title">Character</td>
+                                            <td class="table-modal__content">${dog.Character}</td>
                                         </tr>
                                         <tr>
-                                            <td>Height</td>
-                                            <td>${dog.Height}</td>
+                                            <td class="table-modal__title">Height</td>
+                                            <td class="table-modal__content">${dog.Height}</td>
                                         </tr>
                                         <tr>
-                                            <td>Weight</td>
-                                            <td>${dog.Weight}</td>
+                                            <td class="table-modal__title">Weight</td>
+                                            <td class="table-modal__content">${dog.Weight}</td>
                                         </tr>
                                         <tr>
-                                            <td>Breed_Group</td>
-                                            <td>${dog.Breed_Group}</td>
+                                            <td class="table-modal__title">Breed_Group</td>
+                                            <td class="table-modal__content">${dog.Breed_Group}</td>
                                         </tr>
                                         <tr>
-                                            <td>Temperament</td>
-                                            <td>${dog.Temperament}</td>
+                                            <td class="table-modal__title">Temperament</td>
+                                            <td class="table-modal__content">${dog.Temperament}</td>
                                         </tr>
                                         <tr>
-                                            <td>Overview</td>
-                                            <td>${dog.Overview}</td>
+                                            <td class="table-modal__title">Overview</td>
+                                            <td class="table-modal__content">${dog.Overview}</td>
                                         </tr>
                                         <tr>
-                                            <td>History</td>
-                                            <td>${dog.History}</td>
+                                            <td class="table-modal__title">History</td>
+                                            <td class="table-modal__content">${dog.History}</td>
                                         </tr>
                                     </tbody>
                                 </table>
