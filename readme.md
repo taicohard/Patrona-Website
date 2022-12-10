@@ -1,4 +1,4 @@
-<h1>T1.2208.A0-eProject-Group_1</h1>
+<h1>📎 T1.2208.A0-eProject-Group_1</h1>
 <h2>Batch no.: T1.2208.A0</h2>
 
 <p>CENTER NAME: ACE-HCMC-2-FPT 🇻🇳</p>
@@ -13,14 +13,14 @@
     Nguyen Quang Hao 📨(haonguyen171204@gmail.com) 💳Student1408040
     Cao Van Chien 📨(caovanchien2003@gmail.com) 💳Student1408030
     Ho Vi Khang 📨(hovikhang0910@gmail.com) 💳Student1408036
-<h3>============================</h3>
+<hr>
 
-<h2>github report link: https://github.com/taicohard/Patrona-Website/tree/master/documents</h2>
+<p>github report link: https://github.com/taicohard/Patrona-Website/tree/master/documents</p>
 
-<h3>============================</h3>
+<hr>
 
-<h2>eProject published at: https://taicohard.github.io/Patrona-Website/</h2>
+<p>eProject published at: https://taicohard.github.io/Patrona-Website/</p>
 
-<h3>============================</h3>
+<hr>
 
-<h2>Thank you for spending your time to look at our work.</h2>
+<i>😄 This is our first project! We love receiving your reports. sincerely thank you.</i>
