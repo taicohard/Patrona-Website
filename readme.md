@@ -9,10 +9,10 @@
 
 <p>Member details:</p>
 
-    Co Trinh Hien Tai 📨(cotrinhhientai@gmail.com) 💳Student1387819
-    Nguyen Quang Hao 📨(haonguyen171204@gmail.com) 💳Student1408040
-    Cao Van Chien 📨(caovanchien2003@gmail.com) 💳Student1408030
-    Ho Vi Khang 📨(hovikhang0910@gmail.com) 💳Student1408036
+    Co Trinh Hien Tai 📨(cotrinhhientai@gmail.com) 🪪Student1387819
+    Nguyen Quang Hao 📨(haonguyen171204@gmail.com) 🪪Student1408040
+    Cao Van Chien 📨(caovanchien2003@gmail.com) 🪪Student1408030
+    Ho Vi Khang 📨(hovikhang0910@gmail.com) 🪪Student1408036
 <hr>
 
 <p>github report link: https://github.com/taicohard/Patrona-Website/tree/master/documents</p>
